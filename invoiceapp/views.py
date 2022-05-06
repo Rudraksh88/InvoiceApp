@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import InvoiceSerializer, ItemSerializer, InvoiceListSerializer, InvoiceCreateSerializer
 
-# Create your views here.
+# View for the Dashboard
 def HomeView(request):
     invoiceslist = Invoice.objects.all()
     invoice_exist = True
@@ -32,6 +32,7 @@ def HomeView(request):
     
     return render(request, 'index.html', context)
 
+# View for Invoice Detail of a specific invoice
 def InvoiceView(request, pk):
     invoice = Invoice.objects.get(invoice_id = pk)
     itemslist = list(Items.objects.filter(invoice = pk))
@@ -57,18 +58,23 @@ def InvoiceView(request, pk):
 
     return render(request, 'invoice.html', context)
 
+# Views for the API 
+
+# View to get the list of all invoices
 @api_view(['GET'])
 def InvoiceList(request):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceListSerializer(queryset, many=True)
     return Response(serializer_class.data)
 
+# View to get details of a specific invoice
 @api_view(['GET'])
 def GetInvoice(request, pk):
     queryset = Invoice.objects.get(invoice_id = pk)
     serializer_class = InvoiceSerializer(queryset, many=False)
     return Response(serializer_class.data)
 
+# View to create a new invoice
 @api_view(['POST'])
 def CreateInvoice(request):
     serializer_class = InvoiceCreateSerializer(data = request.data)
@@ -76,6 +82,7 @@ def CreateInvoice(request):
          serializer_class.save()
     return Response("Invoice Created")
 
+# View to update the item details of an item of a specific invoice
 @api_view(['PUT'])
 def UpdateInvoice(request, pk, name):
     items = Items.objects.filter(invoice=pk).filter(item_name = name).first()
