@@ -7,14 +7,15 @@ Here are some screenshots:
 ## Dashboard
 This is where you can see all the generated invoices. Click on the INVOICE ID or CUSTOMER NAME to see its details
 
-![Screenshot 2022-05-06 100721](https://user-images.githubusercontent.com/62953974/167070302-a0dca20e-f65b-4844-bee3-f94ca1f13b3e.png)
+![invoiceapp-heroku herokuapp com_](https://user-images.githubusercontent.com/62953974/167078572-e2099742-60ca-48c5-8d59-dd3cab6f3902.png)
 
 ## Invoice Details
-Displays details of a particular invoice. The Print Invoice button opens up the browser's print dialog.
+Displays details of a particular invoice. The Print Invoice button opens up the browser's print dialog. 
 
-![Screenshot 2022-05-06 101019](https://user-images.githubusercontent.com/62953974/167070480-e864942f-2bc9-4701-8601-dd9cb53efe72.png)  
+![invoiceapp-heroku herokuapp com_invoice_a8aeb5a8-5498-40fd-9b4f-bb09a7057c71](https://user-images.githubusercontent.com/62953974/167078672-b0d72495-1674-4877-9491-ec6c07458b4b.png)
 
-![Screenshot 2022-05-06 101031](https://user-images.githubusercontent.com/62953974/167070747-8be51f0c-a9ed-4db8-a1f0-ba93b90247ae.png)
+![Screenshot 2022-05-06 101031](https://user-images.githubusercontent.com/62953974/167079040-e5400d12-5255-4759-b8e8-bbdb81a7e8f8.png)
+
 
 ## Django Admin 
 Manage and create new Invoices using this interface  
@@ -29,6 +30,9 @@ Password: ```admin@123```
 
 ### Create new Invoice form
 
+Currently new invoices can only be generated via the Django Admin panel or via the API.  
+invoice_id and invoice_date are generated automatically when an invoice is created.  
+
 ![invoiceapp-heroku herokuapp com_admin_invoiceapp_invoice_add_](https://user-images.githubusercontent.com/62953974/167070978-69e153b6-106f-44a2-8647-28763eeed0b6.png)
 
 ## API Guide
@@ -40,16 +44,66 @@ Password: ```admin@123```
 
 ### List of all invoices
 
+```/api/```  
+
 ![invoiceapp-heroku herokuapp com_api_](https://user-images.githubusercontent.com/62953974/167071170-e1d9e99f-f5bb-4777-be77-0f71bbbdbc17.png)
 
 ### Invoice Details
+
+Example:
+To get the invoice details of invoice_id ```a8aeb5a8-5498-40fd-9b4f-bb09a7057c71/```  
+
+```/api/get-invoice/a8aeb5a8-5498-40fd-9b4f-bb09a7057c71/```
 
 ![invoiceapp-heroku herokuapp com_api_get-invoice_a8aeb5a8-5498-40fd-9b4f-bb09a7057c71_](https://user-images.githubusercontent.com/62953974/167071476-13c3f576-a530-4d1e-8cee-b1a4d9eab01f.png)
 
 ### Update Invoice
 
+Example:
+To update the item "PC Cabinet" of the invoice_id ```a8aeb5a8-5498-40fd-9b4f-bb09a7057c71/```  
+
+```/api/update/a8aeb5a8-5498-40fd-9b4f-bb09a7057c71/PC Cabinet```
+
+Format of the PUT request body:
+```
+{
+  "item_name": "PC Cabinet",
+  "item_quantity": 1,
+  "item_price": 200
+}
+```
+
 ![invoiceapp-heroku herokuapp com_api_update_a8aeb5a8-5498-40fd-9b4f-bb09a7057c71_PC%20Cabinet_](https://user-images.githubusercontent.com/62953974/167071497-6096fa4f-82a5-4927-8ec0-271dbf336f85.png)
 
 ### Create Invoice
+Example:
+Format for the POST request body to create invoice  
+
+```/api/create/```
+
+```
+{
+    "customer_name": "John Doe",
+    "customer_phone": 111666,
+    "customer_address": "Palo Alto, California",
+    "items": [
+        {
+            "item_name": "PC Cabinet",
+            "item_quantity": 1,
+            "item_price": 200
+        },
+        {
+            "item_name": "Motherboard",
+            "item_quantity": 1,
+            "item_price": 1000
+        },
+        {
+            "item_name": "PSU",
+            "item_quantity": 1,
+            "item_price": 300
+        }
+    ]
+}
+```
 
 ![invoiceapp-heroku herokuapp com_api_create_](https://user-images.githubusercontent.com/62953974/167071540-77d4b2c2-1055-430d-a7b5-0be53446ce88.png)
